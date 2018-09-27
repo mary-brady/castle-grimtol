@@ -16,7 +16,7 @@ namespace CastleGrimtol.Project
                 switch (choice)
                 {
                     case 1:
-                        Go(choice);
+                        Go();
                         break;
                     case 2:
                         TakeItem();
@@ -28,16 +28,16 @@ namespace CastleGrimtol.Project
                         Look();
                         break;
                     case 5:
-                        Inventory()
+                        Inventory();
                         break;
                     case 6:
                         Help();
                         break;
                     case 7:
-                        Quit()
+                        Quit();
                         break;
                     case 8:
-                        Reset()
+                        Reset();
                         break;
 
                 }
@@ -82,7 +82,18 @@ namespace CastleGrimtol.Project
 
         public void Setup()
         {
-            throw new System.NotImplementedException();
+            Room Entrance = new Room("Entrance", "This is just the beginning");
+            Room DeathTrap = new Room("Pit of Death", "It was dark, you fell, you died. Start over?");
+            Room East1 = new Room("East 1", "You found an open door! Look around to find something useful");
+            Room East2 = new Room("East 3", "This room definitely has a locked door");
+            Room GameOver = new Room("Exit room", "Yay, you won this incredibly simple game!");
+            Item key = new Item("key", "Metal that unlocks a door!");
+
+            Entrance.Exits.Add("Entrance", East1);
+            Entrance.Exits.Add("East1", East2);
+            Entrance.Exits.Add("East2", GameOver);
+
+            East1.Items.Add(key);
         }
 
         public void StartGame()

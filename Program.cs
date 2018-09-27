@@ -7,6 +7,7 @@ namespace CastleGrimtol
     {
         public static void Main(string[] args)
         {
+            Console.WriteLine("Welcom to ADVENTURETOWN!");
 
         }
     }
