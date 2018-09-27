@@ -7,11 +7,6 @@ namespace CastleGrimtol.Project
         public string Name { get; set; }
         public string Description { get; set; }
 
-        public void seeItems()
-        {
-            System.Console.WriteLine($"You have a {Name}, {Description} in your inventory");
-        }
-
         public Item(string name, string description)
         {
             Name = name;
