@@ -7,15 +7,7 @@ namespace CastleGrimtol
     {
         public static void Main(string[] args)
         {
-            Console.WriteLine("Welcome to ADVENTURETOWN!");
-            Game game = new Game();
 
-            var playing = true;
-            while (playing)
-            {
-                Console.Clear();
-                game.Setup();
-            }
 
         }
     }
