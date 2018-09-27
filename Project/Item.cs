@@ -16,7 +16,6 @@ namespace CastleGrimtol.Project
         {
             Name = name;
             Description = description;
-
         }
 
     }

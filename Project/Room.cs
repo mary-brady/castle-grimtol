@@ -14,6 +14,14 @@ namespace CastleGrimtol.Project
             Items.Add(item);
         }
 
+        public Room(string name, string description)
+        {
+            Name = name;
+            Description = description;
+            Exits = new Dictionary<string, IRoom>();
+            Items = new List<Item>();
+        }
+
         public void removeItem(string itemName)
         {
             Items.RemoveAll(i => i.Name == "key");

@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 
 namespace CastleGrimtol.Project
@@ -9,7 +10,38 @@ namespace CastleGrimtol.Project
 
         public void GetUserInput()
         {
-            throw new System.NotImplementedException();
+            string UserInput = Console.ReadLine();
+            if (Int32.TryParse(UserInput, out int choice))
+            {
+                switch (choice)
+                {
+                    case 1:
+                        Go(choice);
+                        break;
+                    case 2:
+                        TakeItem();
+                        break;
+                    case 3:
+                        UseItem();
+                        break;
+                    case 4:
+                        Look();
+                        break;
+                    case 5:
+                        Inventory()
+                        break;
+                    case 6:
+                        Help();
+                        break;
+                    case 7:
+                        Quit()
+                        break;
+                    case 8:
+                        Reset()
+                        break;
+
+                }
+            }
         }
 
         public void Go(string direction)
@@ -24,7 +56,13 @@ namespace CastleGrimtol.Project
 
         public void Inventory()
         {
-            throw new System.NotImplementedException();
+
+            for (int i = 0; i < CurrentPlayer.Inventory.Count; i++)
+            {
+                Console.WriteLine($"You have a {CurrentPlayer.Inventory[i].Name} in your inventory");
+            }
+            string choice = Console.ReadLine();
+            GetUserInput();
         }
 
         public void Look()
@@ -69,7 +107,13 @@ namespace CastleGrimtol.Project
 
         public void UseItem(string itemName)
         {
-            CurrentPlayer.useItem(itemName);
+            Item item = CurrentPlayer.Inventory.Find(i => i.Name == itemName);
+
+            if (item != null)
+            {
+                CurrentPlayer.Inventory.Remove(item);
+            }
+
         }
     }
 }
