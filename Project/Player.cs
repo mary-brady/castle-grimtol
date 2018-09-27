@@ -8,5 +8,15 @@ namespace CastleGrimtol.Project
         public string PlayerName { get; set; }
         public List<Item> Inventory { get; set; }
 
+        // public void GiveItem(Item item)
+        // {
+
+        // }
+
+        public Player(string name)
+        {
+            PlayerName = name;
+        }
+
     }
 }

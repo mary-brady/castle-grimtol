@@ -11,7 +11,7 @@ namespace CastleGrimtol.Project
 
         public void GetUserInput()
         {
-
+            Console.WriteLine("What are you gunna do?");
             string userInput = Console.ReadLine();
             switch (userInput.ToLower())
             {
@@ -54,6 +54,9 @@ namespace CastleGrimtol.Project
                 case "start over":
                     StartGame();
                     break;
+                default:
+                    Console.WriteLine("I don't recognize that command?");
+                    break;
 
             }
         }
@@ -76,24 +79,25 @@ namespace CastleGrimtol.Project
             Console.WriteLine($@"
 1. Type 'Go' and one of four directions ('east', 'west', 'north', 'south'),
 2. Type 'Look' to get a description of your location,
-3. Type 'Use' plus the item name to use your items,
-4. Type 'Take' to take the item
-5. Type 'Reset' to reset the game,
-6. Type 'Quit' to quit the game");
+3. Type 'inventory' to see what's in your inventory,
+4. Type 'Use' plus the item name to use your items,
+5. Type 'Take' to take the item
+6. Type 'Reset' to reset the game,
+7. Type 'Quit' to quit the game");
         }
 
         public void Inventory()
         {
-
-            for (int i = 0; i < CurrentPlayer.Inventory.Count; i++)
+            foreach (var item in CurrentPlayer.Inventory)
             {
-                Console.WriteLine($"You have a {CurrentPlayer.Inventory[i].Name} in your inventory");
+                Console.WriteLine($"You have a {item.Name} in your inventory");
             }
+            Console.WriteLine("Seems like you don't have anything here");
         }
 
         public void Look()
         {
-            Console.WriteLine($"You are in {CurrentRoom}, {CurrentRoom.Description}");
+            Console.WriteLine($"You are in the {CurrentRoom.Name} room, {CurrentRoom.Description}");
         }
 
         public void Quit()
@@ -108,25 +112,34 @@ namespace CastleGrimtol.Project
 
         public void Setup()
         {
-            Room Entrance = new Room("Entrance", "This is just the beginning...type 'Help' to see what you can do.");
+            playing = true;
+
+            Room Entrance = new Room("Entrance", "This is just the beginning.");
             Room DeathTrap = new Room("Pit o' Spikey Death", "It was dark, you fell, you died. On spikes! Type 'start over' to play again!");
-            Room Easty = new Room("East 1", "You've entered the next room...You scan the room and find a small object in the corner. After you've pick it up, you realize it's key. That should come in handy.");
-            Room Eastier = new Room("East 3", "This room definitely has a locked door. Didn't you pick something up in the last room to open it?");
-            Room Eastiest = new Room("Exit room", "Yay, you won this incredibly simple game!");
+            Room East1 = new Room("Easty", "You scan the room and find a small object in the corner. After you've pick it up, you realize it's key. That should come in handy.");
+            Room East2 = new Room("Eastier", "This room definitely has a locked door. Didn't you pick something up in the last room to open it?");
+            Room Exit = new Room("Eastiest", "Yay, you won this incredibly simple game!");
 
             Item key = new Item("key", "Metal that unlocks a door!");
+            Item lockedDoor = new Item("A locked door", "Feels like there should be a key...");
 
 
-            Entrance.Exits.Add("east", Easty);
+            Entrance.Exits.Add("east", East1);
             Entrance.Exits.Add("south", DeathTrap);
-            Easty.Exits.Add("west", Entrance);
-            Easty.Exits.Add("east", Eastier);
-            Eastier.Exits.Add("west", Easty);
-            Eastier.Exits.Add("east", Eastiest);
+            East1.Exits.Add("west", Entrance);
+            East1.Exits.Add("east", East2);
+            East2.Exits.Add("west", East1);
+            East2.Exits.Add("east", Exit);
 
-            Easty.Items.Add(key);
+            East1.Items.Add(key);
+            East2.Items.Add(lockedDoor);
 
             CurrentRoom = Entrance;
+
+            Console.Clear();
+            Console.WriteLine("What is your name?");
+            var name = Console.ReadLine();
+            CurrentPlayer = new Player(name);
         }
 
         public void StartGame()
@@ -137,6 +150,8 @@ namespace CastleGrimtol.Project
             {
                 GetUserInput();
             }
+            // Console.Clear();
+            Console.WriteLine("Ok byyyeee!");
         }
 
         public void TakeItem(string itemName)

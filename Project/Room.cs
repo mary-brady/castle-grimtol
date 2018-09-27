@@ -14,10 +14,6 @@ namespace CastleGrimtol.Project
             Items.Add(item);
         }
 
-        public void ChangeRoom()
-        {
-
-        }
         public void removeItem(string itemName)
         {
             Items.RemoveAll(i => i.Name == "key");
