@@ -16,7 +16,7 @@ namespace CastleGrimtol.Project
                 switch (choice)
                 {
                     case 1:
-                        Go();
+                        Go(direction);
                         break;
                     case 2:
                         TakeItem();
@@ -46,12 +46,15 @@ namespace CastleGrimtol.Project
 
         public void Go(string direction)
         {
-            throw new System.NotImplementedException();
+            if (direction = CurrentRoom.Exits)
+            {
+
+            }
         }
 
         public void Help()
         {
-            throw new System.NotImplementedException();
+
         }
 
         public void Inventory()
@@ -67,7 +70,9 @@ namespace CastleGrimtol.Project
 
         public void Look()
         {
-            throw new System.NotImplementedException();
+            Console.WriteLine($"You are in {CurrentRoom}, {CurrentRoom.Description}");
+            Console.ReadLine() = GetUserInput();
+
         }
 
         public void Quit()
@@ -77,7 +82,7 @@ namespace CastleGrimtol.Project
 
         public void Reset()
         {
-            throw new System.NotImplementedException();
+            Game game = new Game();
         }
 
         public void Setup()
@@ -87,23 +92,26 @@ namespace CastleGrimtol.Project
             Room East1 = new Room("East 1", "You found an open door! Look around to find something useful");
             Room East2 = new Room("East 3", "This room definitely has a locked door");
             Room GameOver = new Room("Exit room", "Yay, you won this incredibly simple game!");
+
             Item key = new Item("key", "Metal that unlocks a door!");
 
-            Entrance.Exits.Add("Entrance", East1);
-            Entrance.Exits.Add("East1", East2);
-            Entrance.Exits.Add("East2", GameOver);
+
+            Entrance.Exits.Add("east", East1);
+            East1.Exits.Add("east", East2);
+            East2.Exits.Add("east", GameOver);
 
             East1.Items.Add(key);
+
+            CurrentRoom = Entrance;
         }
 
         public void StartGame()
         {
-            throw new System.NotImplementedException();
+            Game game = new Game();
         }
 
         public void TakeItem(string itemName)
         {
-            //make sure the item exists in the Current room
             Item item = CurrentRoom.Items.Find(i => i.Name == itemName);
             if (item != null)
             {
@@ -111,9 +119,6 @@ namespace CastleGrimtol.Project
                 CurrentRoom.Items.Remove(item);
                 return;
             }
-
-            //find an item from a List C#
-            //if found add to currentplayer inventory and remove from room
         }
 
         public void UseItem(string itemName)
