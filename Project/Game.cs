@@ -68,6 +68,10 @@ namespace CastleGrimtol.Project
                 Look();
                 return;
             }
+            if (CurrentRoom.Name == "Eastier")
+            {
+                Console.WriteLine("This door is locked. Try using your key?");
+            }
             else
             {
                 Console.WriteLine("You've run into a wall...maybe try a different direction");
@@ -116,7 +120,7 @@ namespace CastleGrimtol.Project
 
             Room Entrance = new Room("Entrance", "This is just the beginning.");
             Room DeathTrap = new Room("Pit o' Spikey Death", "It was dark, you fell, you died. On spikes! Type 'start over' to play again!");
-            Room East1 = new Room("Easty", "You scan the room and find a small object in the corner. After you've pick it up, you realize it's key. That should come in handy.");
+            Room East1 = new Room("Easty", "You scan the room and find a small object in the corner. It's a key. Try taking it.");
             Room East2 = new Room("Eastier", "This room definitely has a locked door. Didn't you pick something up in the last room to open it?");
             Room Exit = new Room("Eastiest", "Yay, you won this incredibly simple game!");
 
@@ -161,6 +165,7 @@ namespace CastleGrimtol.Project
             {
                 CurrentPlayer.Inventory.Add(item);
                 CurrentRoom.Items.Remove(item);
+                Console.WriteLine("You grabbed the key, it's now in your inventory.");
                 return;
             }
         }
@@ -172,6 +177,8 @@ namespace CastleGrimtol.Project
             if (item != null)
             {
                 CurrentPlayer.Inventory.Remove(item);
+                CurrentRoom.Items.Remove(item);
+                Console.Write("The door is now unlocked! You may proceed...");
             }
 
         }
