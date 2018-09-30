@@ -5,7 +5,7 @@ namespace CastleGrimtol.Project
 {
     public class Game : IGame
     {
-        private bool playing;
+        private bool playing = false;
         public IRoom CurrentRoom { get; set; }
         public Player CurrentPlayer { get; set; }
 
@@ -26,6 +26,7 @@ namespace CastleGrimtol.Project
                     break;
                 case "go east":
                     Go("east");
+
                     break;
                 case "use key":
                     UseItem("key");
@@ -62,16 +63,26 @@ namespace CastleGrimtol.Project
         }
         public void Go(string direction)
         {
-            if (CurrentRoom.Exits.ContainsKey(direction))
+            if (CurrentRoom.Items.Count != 0)
+            {
+                Console.WriteLine("You gotta clear the room first");
+            }
+            else if (CurrentRoom.Exits.ContainsKey(direction))
             {
                 CurrentRoom = CurrentRoom.Exits[direction];
+
+                if (CurrentRoom.Name == "Pit o' Spikey Death")
+                {
+                    playing = false;
+                }
                 Look();
+                if (CurrentRoom.Name == "Eastiest")
+                {
+                    playing = false;
+                }
                 return;
             }
-            if (CurrentRoom.Name == "Eastier")
-            {
-                Console.WriteLine("This door is locked. Try using your key?");
-            }
+
             else
             {
                 Console.WriteLine("You've run into a wall...maybe try a different direction");
@@ -83,7 +94,7 @@ namespace CastleGrimtol.Project
             Console.WriteLine($@"
 1. Type 'Go' and one of four directions ('east', 'west', 'north', 'south'),
 2. Type 'Look' to get a description of your location,
-3. Type 'inventory' to see what's in your inventory,
+3. Type 'Inventory' to see what's in your inventory,
 4. Type 'Use' plus the item name to use your items,
 5. Type 'Take' to take the item
 6. Type 'Reset' to reset the game,
@@ -96,7 +107,6 @@ namespace CastleGrimtol.Project
             {
                 Console.WriteLine($"You have a {item.Name} in your inventory");
             }
-            Console.WriteLine("Seems like you don't have anything here");
         }
 
         public void Look()
@@ -111,7 +121,7 @@ namespace CastleGrimtol.Project
 
         public void Reset()
         {
-            Setup();
+            StartGame();
         }
 
         public void Setup()
@@ -119,7 +129,7 @@ namespace CastleGrimtol.Project
             playing = true;
 
             Room Entrance = new Room("Entrance", "This is just the beginning.");
-            Room DeathTrap = new Room("Pit o' Spikey Death", "It was dark, you fell, you died. On spikes! Type 'start over' to play again!");
+            Room DeathTrap = new Room("Pit o' Spikey Death", "It was dark, you fell, you died. On spikes.");
             Room East1 = new Room("Easty", "You scan the room and find a small object in the corner. It's a key. Try taking it.");
             Room East2 = new Room("Eastier", "This room definitely has a locked door. Didn't you pick something up in the last room to open it?");
             Room Exit = new Room("Eastiest", "Yay, you won this incredibly simple game!");
@@ -149,13 +159,11 @@ namespace CastleGrimtol.Project
         public void StartGame()
         {
             Setup();
-            Console.WriteLine("Welcome to QUEST TOWN! Your only mission: Escape.");
+            Console.WriteLine($"Welcome to QUEST TOWN, {CurrentPlayer.PlayerName}! Your only mission: Escape.");
             while (playing)
             {
                 GetUserInput();
             }
-            // Console.Clear();
-            Console.WriteLine("Ok byyyeee!");
         }
 
         public void TakeItem(string itemName)
@@ -177,9 +185,9 @@ namespace CastleGrimtol.Project
             if (item != null)
             {
                 CurrentPlayer.Inventory.Remove(item);
-                CurrentRoom.Items.Remove(item);
                 Console.Write("The door is now unlocked! You may proceed...");
             }
+            CurrentRoom.Items.Clear();
 
         }
     }
