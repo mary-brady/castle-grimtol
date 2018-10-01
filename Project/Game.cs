@@ -167,6 +167,7 @@ namespace CastleGrimtol.Project
         {
             Setup();
             Console.WriteLine($"Welcome to QUEST TOWN, {CurrentPlayer.PlayerName}! Your only mission: Escape.");
+            Look();
             while (playing)
             {
                 GetUserInput();
