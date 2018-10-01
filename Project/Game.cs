@@ -103,9 +103,16 @@ namespace CastleGrimtol.Project
 
         public void Inventory()
         {
-            foreach (var item in CurrentPlayer.Inventory)
+            if (CurrentPlayer.Inventory.Count > 0)
             {
-                Console.WriteLine($"You have a {item.Name} in your inventory");
+                foreach (var item in CurrentPlayer.Inventory)
+                {
+                    Console.WriteLine($"You have a {item.Name} in your inventory");
+                }
+            }
+            else
+            {
+                Console.WriteLine("You don't have anything in here.");
             }
         }
 
@@ -180,15 +187,21 @@ namespace CastleGrimtol.Project
 
         public void UseItem(string itemName)
         {
-            Item item = CurrentPlayer.Inventory.Find(i => i.Name == itemName);
-
-            if (item != null)
+            if (CurrentRoom.Items.Count > 0)
             {
-                CurrentPlayer.Inventory.Remove(item);
-                Console.Write("The door is now unlocked! You may proceed...");
-            }
-            CurrentRoom.Items.Clear();
+                Item item = CurrentPlayer.Inventory.Find(i => i.Name == itemName);
 
+                if (item != null)
+                {
+                    CurrentPlayer.Inventory.Remove(item);
+                    Console.Write("The door is now unlocked! You may proceed...");
+                }
+                CurrentRoom.Items.Clear();
+            }
+            else
+            {
+                Console.WriteLine("You can't use that here");
+            }
         }
     }
 }
